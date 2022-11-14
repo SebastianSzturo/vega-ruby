@@ -75,7 +75,7 @@ module Vega
       css_vars.each_key do |k|
         # limit to alphanumeric and % for simplicity
         # this prevents things like calc() but safety is the priority
-        raise ArgumentError, "Invalid #{k}" unless css_vars[k] =~ /\A[a-zA-Z0-9%]*\z/
+        #raise ArgumentError, "Invalid #{k}" unless css_vars[k] =~ /\A[a-zA-Z0-9%]*\z/
         # we limit above, but escape for safety as fail-safe
         # to prevent XSS injection in worse-case scenario
         css_vars[k] = ERB::Util.html_escape(css_vars[k])
@@ -92,7 +92,7 @@ module Vega
       end
 
       # needs width to be set for vegaEmbed to work
-      html = %(<div id="%{id}" style="width: %{width}; height: %{height};"></div>) % html_vars.merge(css_vars)
+      html = %(<div id="%{id}" style="width: %{width}; min-height: %{height};"></div>) % html_vars.merge(css_vars)
       js = "vegaEmbed(%{el}, %{spec}, %{opt});" % js_vars
 
       [html, js]
